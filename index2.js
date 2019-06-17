@@ -57,42 +57,21 @@ function enterState(newState) {
 	}
 }
 
-start();
+//function mainStreet() {
 
+//}
+
+start();
 async function start() {
 	console.log(states[currentState].welcomeMessage);
 	let answer = await ask(">_");
-	answer = answer.toLowerCase();
-	while (answer !== "exit") {
-		if (answer === "gargle") {
-			console.log("Sorry, I don't know how to gargle.");
-			answer = await ask(">_");
-			answer = answer.toLowerCase();
-		} else if (answer === "read sign") {
-			console.log(
-				'The sign says "Welcome to Burlington Code Academy! Come on\nup to the third floor. If the door is locked, use the code\n12345."'
-			);
-			answer = await ask(">_");
-			answer = answer.toLowerCase();
-		} else if (answer === "take sign") {
-			console.log(
-				"That would be selfish. How will other students find their way?"
-			);
-			answer = await ask(">_");
-			answer = answer.toLowerCase();
-		} else if (answer === "enter code 12345") {
-			enterState("foyer");
-			console.log(states[currentState].welcomeMessage);
-		} else if (answer === "take paper" || answer === "take seven days ") {
-			console.log(""
-			);
-			answer = await ask(">_");
-			answer = answer.toLowerCase();
-		} else {
-			console.log("Bye!");
-			process.exit();
-		}
-		answer = await ask(">_");
-	  answer = answer.toLowerCase();
-	}
+  answer = answer.toLowerCase();
+  while (answer !== "exit") {
+    if (currentState === "182main"){};
+      if (answer === )
+    if (currentState === "foyer"){};
+    if (currentState === "stairs"){};
+    if (currentState === "classroom"){};
+    if (currentState === "mr.mikes"){};
+  }
 }
