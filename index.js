@@ -22,6 +22,13 @@ You are standing on Main Street between Church and South Winooski.
 There is a door here. A keypad sits on the handle.
 On the door is a handwritten sign.
 
+`,
+		readSign: `
+
+The sign says "Welcome to Burlington Code Academy! Come on 
+up to the third floor. If the door is locked, use the code
+12345."
+
 `
 	},
 	"foyer": {
@@ -52,10 +59,16 @@ Paper has been dropped.
 
 `
 	},
-	"stairs": { canChangeTo: ["classroom", "foyer"], name: "Stars" },
+	"stairs": { canChangeTo: ["classroom", "foyer"], name: "Stairs" },
 	"mr.mikes": { canChangeTo: ["182main"] },
 	"muddys": { canChangeTo: ["182main"] },
-	"classroom": { canChangeTo: ["stairs"] }
+	"classroom": { canChangeTo: ["stairs"],
+		welcomeMessage: `
+		
+You made it to class but no one has coffee including yourself. 
+So program explodes enter exit and leave program now so you can fix it!
+
+` }
 };
 
 /*let character = { Character Object. Still not sure exactly how I want to implement.
@@ -97,25 +110,23 @@ async function start() {                  // This whole loop is controlling the 
 	let answer = await ask(">_");
 	answer = answer.toLowerCase();
 	while (answer !== "exit") {
-		if (answer === "gargle") {
-			console.log("Sorry, I don't know how to gargle.");
-			answer = await ask(">_");
-			answer = answer.toLowerCase();
-		} else if (answer === "read sign") {
-			console.log(
-				'The sign says "Welcome to Burlington Code Academy! Come on\nup to the third floor. If the door is locked, use the code\n12345."'
-			);
+		if (answer === 'read sign'){
+			console.log(states[currentState].readSign);
 			answer = await ask(">_");
 			answer = answer.toLowerCase();
 		} else if (answer === "take sign") {
-			console.log(
-				"That would be selfish. How will other students find their way?"
-			);
+			console.log(`
+
+That would be selfish. How will other students find their way?
+
+`);
 			answer = await ask(">_");
 			answer = answer.toLowerCase();
 		} else if (answer === "enter code 12345") {
 			enterState("foyer");
 			console.log(states[currentState].welcomeMessage);
+			answer = await ask(">_");
+			answer = answer.toLowerCase();
 		} else if (
 			(answer === "take paper" && currentState === "foyer") ||
 			(answer === "take seven days " && currentState === "foyer")
@@ -143,11 +154,18 @@ async function start() {                  // This whole loop is controlling the 
 			console.log("I'm going up these dang stairs");
 			answer = await ask(">_");
 			answer = answer.toLowerCase();
+		} else if ((answer === "go in class" && currentState === "stairs") ||
+		(answer === "go to class" && currentState === "stairs") ||
+		(answer === "go into classroom" && currentState === "stairs")) {
+			enterState("classroom")
+			console.log(states[currentState].welcomeMessage);
+			answer = await ask(">_");
+			answer = answer.toLowerCase();
 		} else {
-			console.log("Bye!");
-			process.exit();
-		}
-		answer = await ask(">_");
-		answer = answer.toLowerCase();
+			 console.log("Sorry, I don't know how to " + answer + ".");
+			 answer = await ask(">_");
+			 answer = answer.toLowerCase();
+		 	};
 	}
+	process.exit();
 }
